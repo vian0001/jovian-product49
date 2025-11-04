@@ -1,0 +1,1697 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mengonfigurasi Hotspot Server Dasar di MikroTik</title>
+    <style>
+
+            /* Styling untuk container gambar */
+
+    .image-container {
+      margin: 30px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.4s ease;
+      max-width: 100%;
+      position: relative;
+    }
+
+    .image-container:hover {
+      transform: scale(1.02);
+      box-shadow: 0 15px 40px rgba(37, 99, 235, 0.4);
+    }
+
+    .image-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: all 0.4s ease;
+    }
+
+    .image-container:hover img {
+      filter: brightness(1.1);
+    }
+
+    .image-caption {
+      background: linear-gradient(to top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.7), transparent);
+      padding: 15px 20px;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .image-container:hover .image-caption {
+      transform: translateY(0);
+    }
+
+    @keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
+    @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
+    {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+ 
+        /* Portfolio Button Styling */
+.portfolio-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: var(--text-primary);
+    border: none;
+    border-radius: 50px;
+    padding: 15px 25px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(37, 99, 235, 0.4);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.portfolio-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6);
+}
+
+.portfolio-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.2), 
+        transparent);
+    animation: shineEffect 3s infinite;
+}
+
+.portfolio-icon {
+    font-size: 1.2rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes shineEffect {
+    0% { left: -100%; }
+    20% { left: 100%; }
+    100% { left: 100%; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.attention-ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50px;
+    border: 2px solid var(--accent-color);
+    animation: ripple 2s infinite;
+    opacity: 0;
+}
+
+@keyframes ripple {
+    0% {
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+    }
+    100% {
+        width: 200%;
+        height: 200%;
+        opacity: 0;
+    }
+}
+
+
+
+  {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --primary-color: #2563eb;
+        --secondary-color: #1e40af;
+        --accent-color: #06b6d4;
+        --success-color: #059669;
+        --warning-color: #d97706;
+        --danger-color: #dc2626;
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --bg-card: #334155;
+        --bg-light: #f8fafc;
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --border-color: #475569;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    /* Tech Background Pattern */
+    .tech-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -3;
+        background: 
+            radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 40% 80%, rgba(220, 38, 38, 0.08) 0%, transparent 50%);
+    }
+
+    .circuit-pattern {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+        opacity: 0.03;
+        background-image: 
+            linear-gradient(90deg, var(--primary-color) 1px, transparent 1px),
+            linear-gradient(var(--primary-color) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: circuitMove 20s linear infinite;
+    }
+
+    @keyframes circuitMove {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(50px, 50px); }
+    }
+
+    /* Floating particles */
+    .tech-particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+    }
+
+    .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: var(--accent-color);
+        border-radius: 50%;
+        opacity: 0.6;
+        animation: float linear infinite;
+    }
+
+    @keyframes float {
+        0% { 
+            transform: translateY(100vh) translateX(0px);
+            opacity: 0;
+        }
+        10% { 
+            opacity: 0.6;
+        }
+        90% { 
+            opacity: 0.6;
+        }
+        100% { 
+            transform: translateY(-100px) translateX(100px);
+            opacity: 0;
+        }
+    }
+
+    /* Header */
+    .header {
+        text-align: center;
+        padding: 100px 20px 80px;
+        background: linear-gradient(135deg, 
+            rgba(37, 99, 235, 0.1) 0%, 
+            rgba(6, 182, 212, 0.1) 50%, 
+            rgba(5, 150, 105, 0.1) 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            45deg,
+            transparent,
+            rgba(37, 99, 235, 0.1),
+            transparent
+        );
+        animation: headerScan 10s linear infinite;
+    }
+
+    @keyframes headerScan {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    .main-title {
+        font-family: 'Inter', sans-serif;
+        font-size: 3.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--primary-color), var(--accent-color), var(--success-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+        text-shadow: 0 0 50px rgba(37, 99, 235, 0.3);
+        animation: titleGlow 4s ease-in-out infinite alternate;
+        position: relative;
+    }
+
+    @keyframes titleGlow {
+        0% { filter: brightness(1); }
+        100% { filter: brightness(1.2); }
+    }
+
+    .subtitle {
+        font-size: 1.3rem;
+        color: var(--text-secondary);
+        margin-bottom: 40px;
+        font-weight: 300;
+        letter-spacing: 1px;
+    }
+
+    .author-card {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 30px;
+        max-width: 600px;
+        margin: 0 auto;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        animation: cardFloat 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes cardFloat {
+        0% { transform: translateY(0px); }
+        100% { transform: translateY(-10px); }
+    }
+
+    .card-header {
+        text-align: center;
+        font-size: 1.1rem;
+        color: var(--accent-color);
+        margin-bottom: 20px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .author-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        text-align: left;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+    }
+
+    .info-label {
+        font-weight: 600;
+        color: var(--primary-color);
+        min-width: 80px;
+        margin-right: 15px;
+    }
+
+    .info-value {
+        color: var(--text-primary);
+        font-weight: 400;
+    }
+
+    /* Container */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 20px;
+    }
+
+    /* Section styling */
+    .section {
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.05) 0%, 
+            rgba(255, 255, 255, 0.02) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 40px;
+        margin: 40px 0;
+        position: relative;
+        backdrop-filter: blur(20px);
+        transition: all 0.4s ease;
+        animation: sectionSlide 0.8s ease-out;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .section:nth-child(even) {
+        animation: sectionSlideRight 0.8s ease-out;
+    }
+
+    @keyframes sectionSlide {
+        from { transform: translateX(-50px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes sectionSlideRight {
+        from { transform: translateX(50px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+
+    .section:hover {
+        border-color: var(--primary-color);
+        box-shadow: 0 12px 48px rgba(37, 99, 235, 0.2);
+        transform: translateY(-8px);
+    }
+
+    .section-title {
+        font-family: 'Inter', sans-serif;
+        color: var(--primary-color);
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 25px;
+        position: relative;
+        padding-left: 30px;
+    }
+
+    .section-title::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 30px;
+        background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        border-radius: 2px;
+    }
+
+    /* Sub-section titles */
+    .subsection-title {
+        font-family: 'Inter', sans-serif;
+        color: var(--accent-color);
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        position: relative;
+        padding-left: 20px;
+    }
+
+    .subsection-title::before {
+        content: '—'; /* Simple dash or similar indicator */
+        position: absolute;
+        left: 0;
+        color: var(--accent-color);
+    }
+
+    /* Code blocks with typing effect */
+    .code-terminal {
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 25px;
+        margin: 25px 0;
+        font-family: 'JetBrains Mono', monospace;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .code-terminal::before {
+        content: '$ mikrotik@router:~';
+        color: var(--success-color);
+        font-weight: 600;
+        display: block;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .code-line {
+        color: var(--text-primary);
+        margin: 8px 0;
+        position: relative;
+        padding-left: 20px;
+        transition: all 0.3s ease;
+        opacity: 0;
+        width: fit-content;
+        font-family: 'JetBrains Mono', monospace;
+        white-space: pre;
+    }
+
+    .code-line.typing {
+        opacity: 1;
+        border-right: 2px solid var(--accent-color);
+        animation: blink-cursor 1s infinite;
+    }
+
+    .code-line.typed {
+        opacity: 1;
+        border-right: none;
+    }
+
+    @keyframes blink-cursor {
+        0%, 50% { border-color: var(--accent-color); }
+        51%, 100% { border-color: transparent; }
+    }
+
+    .code-line:hover {
+        background: rgba(37, 99, 235, 0.1);
+        padding-left: 25px;
+        border-radius: 6px;
+    }
+
+    .code-line::before {
+        content: '▶';
+        position: absolute;
+        left: 0;
+        color: var(--accent-color);
+        font-size: 0.8rem;
+    }
+
+    .comment {
+        color: var(--text-muted);
+        font-style: italic;
+    }
+
+    .string {
+        color: var(--warning-color);
+        font-weight: 400;
+    }
+
+    .keyword {
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+
+    /* Alert boxes */
+    .tech-alert {
+        background: linear-gradient(135deg, 
+            rgba(37, 99, 235, 0.1), 
+            rgba(6, 182, 212, 0.1));
+        border: 1px solid var(--primary-color);
+        border-left: 4px solid var(--primary-color);
+        border-radius: 12px;
+        padding: 25px;
+        margin: 30px 0;
+        position: relative;
+        animation: alertPulse 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes alertPulse {
+        0% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.2); }
+        100% { box-shadow: 0 0 30px rgba(37, 99, 235, 0.4); }
+    }
+
+    .tech-alert::before {
+        content: '🔧 TEKNOLOGI INFO';
+        position: absolute;
+        top: -12px;
+        left: 20px;
+        background: var(--bg-primary);
+        color: var(--primary-color);
+        padding: 5px 15px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border-radius: 20px;
+        border: 1px solid var(--primary-color);
+    }
+
+    .security-alert {
+        background: linear-gradient(135deg, 
+            rgba(220, 38, 38, 0.1), 
+            rgba(217, 119, 6, 0.1));
+        border: 1px solid var(--danger-color);
+        border-left: 4px solid var(--danger-color);
+        border-radius: 12px;
+        padding: 25px;
+        margin: 30px 0;
+        position: relative;
+        animation: securityBlink 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes securityBlink {
+        0% { border-left-color: var(--danger-color); }
+        100% { border-left-color: var(--warning-color); }
+    }
+
+    .security-alert::before {
+        content: '🛡 KEAMANAN';
+        position: absolute;
+        top: -12px;
+        left: 20px;
+        background: var(--bg-primary);
+        color: var(--danger-color);
+        padding: 5px 15px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border-radius: 20px;
+        border: 1px solid var(--danger-color);
+    }
+
+    .conclusion-box {
+        background: linear-gradient(135deg, 
+            rgba(5, 150, 105, 0.1), 
+            rgba(37, 99, 235, 0.1));
+        border: 1px solid var(--success-color);
+        border-left: 4px solid var(--success-color);
+        border-radius: 12px;
+        padding: 25px;
+        margin: 30px 0;
+        position: relative;
+        animation: conclusionGlow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes conclusionGlow {
+        0% { box-shadow: 0 0 20px rgba(5, 150, 105, 0.2); }
+        100% { box-shadow: 0 0 30px rgba(5, 150, 105, 0.4); }
+    }
+
+    .conclusion-box::before {
+        content: '📝 KESIMPULAN';
+        position: absolute;
+        top: -12px;
+        left: 20px;
+        background: var(--bg-primary);
+        color: var(--success-color);
+        padding: 5px 15px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border-radius: 20px;
+        border: 1px solid var(--success-color);
+    }
+
+    /* Bibliography */
+    .bibliography {
+        background: linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.08), 
+            rgba(255, 255, 255, 0.04));
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 20px;
+        padding: 40px;
+        margin-top: 60px;
+        backdrop-filter: blur(20px);
+        animation: biblioFade 1.5s ease-out;
+    }
+
+    @keyframes biblioFade {
+        from { opacity: 0; transform: translateY(50px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .bibliography h3 {
+        color: var(--accent-color);
+        font-family: 'Inter', sans-serif;
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    .bibliography ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .bibliography li {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 15px;
+        line-height: 1.8;
+        color: var(--text-secondary);
+        transition: all 0.3s ease;
+        position: relative;
+        padding-left: 50px;
+    }
+
+    .bibliography li::before {
+        content: '';
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        font-size: 1.2rem;
+    }
+
+    .bibliography li:hover {
+        color: var(--text-primary);
+        transform: translateX(10px);
+        border-color: var(--primary-color);
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(6, 182, 212, 0.05));
+    }
+
+    .bibliography a {
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        word-break: break-all;
+    }
+
+    .bibliography a:hover {
+        color: var(--accent-color);
+        text-decoration: underline;
+    }
+
+    /* Progress bar */
+    .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--success-color));
+        z-index: 1000;
+        transition: width 0.3s ease;
+        box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .main-title {
+            font-size: 2.5rem;
+        }
+        
+        .section {
+            padding: 25px 20px;
+            margin: 30px 0;
+        }
+        
+        .container {
+            padding: 40px 15px;
+        }
+
+        .code-terminal {
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        .author-info {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Smooth animations */
+    .fade-in {
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+        /* Anti-Copy CSS */
+* {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+img, a {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}
+
+</style>
+    <div class="scroll-progress" id="scrollProgress"></div>
+</head>
+<body>
+
+    <!-- Portfolio Button -->
+    <a href="https://jovian-portofolio02.vercel.app/" target="_blank" class="portfolio-button">
+        <span class="portfolio-icon">🚀</span>
+        Lihat Portfolio Saya
+        <div class="attention-ripple"></div>
+    </a>
+
+    <!-- Tech Background -->
+    <div class="tech-bg"></div>
+    <div class="circuit-pattern"></div>
+    <div class="tech-particles" id="techParticles"></div>
+
+    <!-- Header -->
+    <div class="header">
+        <h1 class="main-title">MIKROTIK ROUTEROS</h1>
+        <div class="subtitle">Mengonfigurasi Hotspot Server Dasar di MikroTik</div>
+        <div class="subtitle">Membangun sistem autentikasi dan manajemen pengguna jaringan WiFi</div>
+        
+        <div class="author-card">
+            <div class="card-header">Informasi Penulis</div>
+            <div class="author-info">
+                <div class="info-item">
+                    <span class="info-label">Penulis:</span>
+                    <span class="info-value">Jovian Ekasakta</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Guru:</span>
+                    <span class="info-value">Arief Wahyudin</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Kelas:</span>
+                    <span class="info-value">XI TJKT 03</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Sekolah:</span>
+                    <span class="info-value">Dwija Bhakti 01 Jombang</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Section: Pengertian dan Manfaat Hotspot Server MikroTik -->
+        <div class="section fade-in">
+            <h2 class="section-title">1. Pengertian dan Manfaat Hotspot Server MikroTik</h2>
+            
+            <h3 class="subsection-title">Pengertian Hotspot Server MikroTik</h3>
+            <p>Dari sumber <strong>MikroTik Wiki</strong> (2024), Hotspot adalah fitur pada Router MikroTik yang memungkinkan pengguna untuk terhubung ke jaringan internet melalui koneksi wireless atau Ethernet dengan menggunakan autentikasi username dan password. Fitur ini membuat portal keamanan yang mengharuskan pengguna untuk melakukan login terlebih dahulu sebelum dapat mengakses jaringan, baik pada koneksi nirkabel maupun kabel.</p>
+            
+            <p>Dari sumber <strong>ID-Networkers (IDN.ID)</strong> (2023), Hotspot pada MikroTik merupakan sistem autentikasi yang dapat dikonfigurasi dengan menggunakan antarmuka berbasis web atau perintah command line. Sistem ini memungkinkan administrator jaringan untuk mengatur berbagai parameter seperti bandwidth yang tersedia untuk setiap pengguna, lama waktu akses internet, dan bahkan menentukan tarif yang harus dibayarkan untuk mengakses internet.</p>
+            
+            <div class="conclusion-box">
+                Dari 2 pendapat tersebut dapat disimpulkan bahwa Hotspot Server MikroTik adalah fitur yang menyediakan mekanisme autentikasi pengguna (username dan password) sebagai syarat untuk dapat mengakses jaringan internet, yang dapat diterapkan pada jaringan wireless maupun kabel, serta menawarkan berbagai fitur manajemen pengguna dan kontrol akses.
+            </div>
+            
+            <h3 class="subsection-title">Manfaat Hotspot Server MikroTik</h3>
+            <p>Dari sumber <strong>NetMe.id</strong> (2019), implementasi Hotspot MikroTik memberikan beberapa keunggulan dibandingkan metode konvensional seperti WPA/WPS. Keunggulan tersebut antara lain: sistem login harus dengan username dan password, kemampuan mengatur batas waktu pemakaian secara otomatis, pengaturan limit bandwidth secara otomatis, dan tingkat keamanan yang lebih tinggi.</p>
+            
+            <p>Dari sumber <strong>SMK TI ANNISA 2</strong> (2023), Hotspot MikroTik memungkinkan administrator jaringan untuk melakukan manajemen terhadap user-user yang terhubung, seperti mengatur durasi total penggunaan hotspot per user, membatasi berapa besar data yang dapat diunduh tiap user, dan mengatur konten apa saja yang boleh diakses oleh pengguna.</p>
+            
+            <ul>
+                <li><strong>Kontrol Akses Pengguna:</strong> Memungkinkan administrator untuk mengelola siapa saja yang dapat terhubung ke jaringan melalui sistem autentikasi.</li>
+                <li><strong>Manajemen Bandwidth:</strong> Kemampuan membatasi kecepatan internet untuk setiap pengguna atau kelompok pengguna.</li>
+                <li><strong>Pembatasan Waktu:</strong> Dapat mengatur durasi penggunaan layanan internet untuk tiap pengguna.</li>
+                <li><strong>Billing System:</strong> Mendukung sistem penagihan untuk layanan internet berbayar seperti di kafe, hotel, atau penyedia layanan internet lokal.</li>
+                <li><strong>Keamanan Jaringan:</strong> Meningkatkan keamanan jaringan dengan memastikan hanya pengguna terautentikasi yang dapat mengakses internet.</li>
+                <li><strong>Monitoring Pengguna:</strong> Kemampuan untuk memantau aktivitas pengguna dan penggunaan bandwidth.</li>
+            </ul>
+            
+            <div class="conclusion-box">
+                Dari 2 pendapat tersebut dapat disimpulkan bahwa Hotspot Server MikroTik menawarkan manfaat berupa kontrol akses yang lebih ketat melalui autentikasi pengguna, kemampuan manajemen bandwidth dan waktu penggunaan, sistem billing yang fleksibel, serta peningkatan keamanan dan kemudahan monitoring pengguna jaringan.
+            </div>
+        </div>
+
+        <!-- Section: Persiapan Konfigurasi Hotspot Server -->
+        <div class="section fade-in">
+            <h2 class="section-title">2. Persiapan Konfigurasi Hotspot Server</h2>
+            
+            <p>Dari sumber <strong>Vasiota.com</strong> (2024), sebelum mengkonfigurasi Hotspot Server pada MikroTik, diperlukan beberapa persiapan dasar untuk memastikan sistem dapat berjalan dengan baik. Hal utama yang perlu dipersiapkan adalah perangkat MikroTik yang sudah terkoneksi ke internet dan memiliki minimal dua interface yang aktif.</p>
+            
+            <p>Dari sumber <strong>Network Data Sistem (NDS)</strong> (2020), persiapan awal konfigurasi Hotspot MikroTik sebaiknya dimulai dengan melakukan factory reset atau restore pengaturan ke factory settings untuk menghindari masalah dengan konfigurasi sebelumnya, dilanjutkan dengan menghubungkan komputer dengan kabel LAN ke port ethernet pada router MikroTik.</p>
+            
+            <h3 class="subsection-title">Persyaratan Hardware dan Software</h3>
+            <ul>
+                <li><strong>Router MikroTik:</strong> Dapat berupa RouterBoard fisik (seperti RB750, RB951, dll) atau instalasi RouterOS pada PC.</li>
+                <li><strong>Versi RouterOS:</strong> Minimal RouterOS v6.x (disarankan menggunakan versi terbaru untuk fitur lengkap).</li>
+                <li><strong>Interface Jaringan:</strong> Minimal dua interface (satu untuk WAN/internet dan satu lagi untuk LAN/hotspot).</li>
+                <li><strong>Winbox:</strong> Aplikasi untuk konfigurasi MikroTik secara GUI (dapat diunduh dari situs resmi MikroTik).</li>
+                <li><strong>Akses Internet:</strong> Koneksi internet yang sudah berfungsi pada interface WAN router MikroTik.</li>
+            </ul>
+            
+            <h3 class="subsection-title">Topologi Jaringan Dasar</h3>
+                                                                        <div class="image-container">
+          <img src="https://github.com/vian0001/jovian-product37/blob/main/Untitled%20Diagram.drawio.png?raw=true" alt="SERVICE IP pada MikroTik RouterOS">
+          <div class="image-caption">Tampilan topologi di gns3</div>
+                                                </div>
+            
+            <p>Topologi jaringan dasar untuk Hotspot MikroTik terdiri dari:</p>
+            <ul>
+                <li><strong>Interface WAN (ether1):</strong> Terhubung ke modem/router ISP untuk akses internet.</li>
+                <li><strong>Interface LAN (ether2-5 atau wlan1):</strong> Digunakan untuk koneksi ke perangkat klien melalui kabel atau Wi-Fi.</li>
+                <li><strong>DHCP Server:</strong> Berjalan di jaringan Hotspot untuk memberikan alamat IP otomatis ke klien.</li>
+                <li><strong>NAT (Network Address Translation):</strong> Memungkinkan klien dengan alamat IP lokal untuk mengakses internet.</li>
+                <li><strong>Hotspot Server:</strong> Berjalan pada interface LAN untuk manajemen autentikasi pengguna.</li>
+            </ul>
+            
+            <div class="security-alert">
+                <p>Pastikan router MikroTik Anda telah menggunakan password yang kuat dan tidak menggunakan password default. Sebelum mengkonfigurasi Hotspot, sebaiknya lakukan perubahan password admin pada RouterOS untuk mencegah akses tidak sah ke sistem.</p>
+            </div>
+            
+            <h3 class="subsection-title">Konfigurasi Awal MikroTik</h3>
+            <p>Langkah-langkah persiapan dasar sebelum mengkonfigurasi Hotspot:</p>
+            <ol>
+                <li><strong>Akses MikroTik:</strong> Gunakan Winbox untuk terhubung ke router MikroTik.</li>
+                <li><strong>Konfigurasi Interface:</strong> Pastikan interface untuk WAN (ether1) dan LAN (ether2 atau wlan1) sudah dikonfigurasi dengan benar.</li>
+                <li><strong>Setup IP Address:</strong> Atur alamat IP pada interface LAN (misalnya: 192.168.88.1/24 untuk ether2).</li>
+                <li><strong>Konfigurasi Gateway Internet:</strong> Pastikan router sudah memiliki akses ke internet melalui interface WAN.</li>
+                <li><strong>DNS Setting:</strong> Konfigurasi DNS server pada router (misalnya: 8.8.8.8 dan 8.8.4.4).</li>
+            </ol>
+            
+            <div class="conclusion-box">
+                Dari 2 pendapat tersebut dapat disimpulkan bahwa persiapan konfigurasi Hotspot Server MikroTik memerlukan hardware berupa router MikroTik dengan minimal dua interface, software Winbox untuk konfigurasi, serta pengaturan dasar meliputi koneksi internet yang berfungsi, alamat IP pada interface LAN, dan konfigurasi DNS yang tepat.
+            </div>
+        </div>
+
+        <!-- Section: Membuat Hotspot Server dengan Winbox -->
+        <div class="section fade-in">
+            <h2 class="section-title">3. Membuat Hotspot Server dengan Winbox</h2>
+            
+            <p>Dari sumber <strong>Citraweb.com</strong> (2024), cara mudah untuk membuat Hotspot Server pada MikroTik adalah dengan menggunakan wizard Hotspot Setup yang tersedia pada Winbox. Wizard ini akan membantu administrator dalam mengkonfigurasi berbagai komponen penting seperti DHCP server, NAT, dan halaman login secara otomatis.</p>
+            
+            <p>Dari sumber <strong>OnnoWiki</strong> (2023), konfigurasi Hotspot MikroTik melalui Winbox merupakan metode yang lebih mudah dibandingkan dengan konfigurasi melalui teks mode (CLI), terutama bagi pengguna yang masih baru. Penggunaan Winbox memungkinkan konfigurasi melalui antarmuka grafis yang intuitif.</p>
+            
+            <h3 class="subsection-title">Langkah-langkah Konfigurasi Hotspot Server</h3>
+            <ol>
+                <li><strong>Buka Aplikasi Winbox dan Hubungkan ke MikroTik:</strong>
+                    <ul>
+                        <li>Jalankan aplikasi Winbox.</li>
+                        <li>Temukan router MikroTik dalam daftar atau masukkan IP address router secara manual.</li>
+                        <li>Masukkan username dan password, lalu klik "Connect".</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>Akses Wizard Hotspot Setup:</strong>
+                    <ul>
+                        <li>Pada menu Winbox, klik "IP" &rarr; "Hotspot".</li>
+                        <li>Pada tab "Servers", klik tombol "Hotspot Setup" untuk memulai wizard.</li>
+                    </ul>
+                </li>
+                <div class="image-container">
+                    <img src="no (1).png" alt="Menu Hotspot Setup di Winbox">
+                    <div class="image-caption">Mengakses Hotspot Setup Wizard di menu IP > Hotspot</div>
+                </div>
+                
+                <li><strong>Langkah 1: Pemilihan Interface Hotspot</strong>
+                    <ul>
+                        <li>Pilih interface dimana Hotspot akan diaktifkan (biasanya interface LAN seperti ether2 atau wlan1).</li>
+                        <li>Klik "Next".</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>Langkah 2: Pengaturan Alamat Jaringan Lokal</strong>
+                    <ul>
+                        <li>Jika interface sudah memiliki alamat IP, alamat tersebut akan otomatis terisi.</li>
+                        <li>Jika belum, tentukan alamat IP untuk interface tersebut (misalnya: 192.168.88.1/24).</li>
+                        <li>Pastikan opsi "Masquerade Network" tercentang untuk NAT.</li>
+                        <li>Klik "Next".</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>Langkah 3: Konfigurasi Pool Alamat DHCP</strong>
+                    <ul>
+                        <li>Tentukan rentang alamat IP (address pool) yang akan diberikan kepada klien Hotspot.</li>
+                        <li>Secara default, MikroTik akan menyarankan rentang berdasarkan alamat IP interface yang dipilih.</li>
+                        <li>Klik "Next".</li>
+                    </ul>
+                </li>
+ 
+                
+                <li><strong>Langkah 4: Pemilihan Sertifikat SSL (Opsional)</strong>
+                    <ul>
+                        <li>Jika ingin menggunakan HTTPS untuk halaman login, pilih sertifikat SSL yang tersedia.</li>
+                        <li>Jika tidak memiliki sertifikat, pilih "none".</li>
+                        <li>Klik "Next".</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>Langkah 5: Konfigurasi SMTP Server (Opsional)</strong>
+                    <ul>
+                        <li>Isi alamat IP SMTP server jika ingin menggunakan fitur notifikasi email.</li>
+                        <li>Jika tidak diperlukan, biarkan dengan nilai default "0.0.0.0".</li>
+                        <li>Klik "Next".</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>Langkah 6: Konfigurasi DNS Server</strong>
+                    <ul>
+                        <li>Masukkan alamat server DNS yang akan digunakan (contoh: 8.8.8.8 dan 1.1.1.1).</li>
+                        <li>Klik "Next".</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>Langkah 7: Konfigurasi DNS Name</strong>
+                    <ul>
+                        <li>Masukkan nama DNS untuk server Hotspot lokal (misalnya: "hotspot.local").</li>
+                        <li>Jika dikosongkan, halaman login akan menggunakan alamat IP dari interface Hotspot.</li>
+                        <li>Klik "Next".</li>
+                    </ul>
+                </li>
+                <div class="image-container">
+                    <img src="no (2).png" alt="Konfigurasi DNS Name">
+                    <div class="image-caption">Menentukan nama DNS untuk server Hotspot lokal</div>
+                </div>
+
+                                <div class="image-container">
+                    <img src="no (3).png" alt="Konfigurasi DNS Name">
+                    <div class="image-caption">Menentukan nama DNS untuk server Hotspot lokal</div>
+                </div>
+
+                                <div class="image-container">
+                    <img src="no (4).png" alt="Konfigurasi DNS Name">
+                    <div class="image-caption">Menentukan nama DNS untuk server Hotspot lokal</div>
+                </div>
+                
+                <li><strong>Langkah 8: Pembuatan Akun Administrator Hotspot</strong>
+                    <ul>
+                        <li>Tentukan username dan password untuk akun administrator Hotspot.</li>
+                        <li>Ini adalah akun yang akan digunakan untuk pengujian dan akses administratif.</li>
+                        <li>Klik "Next".</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>Penyelesaian Wizard:</strong>
+                    <ul>
+                        <li>Wizard akan menampilkan pesan bahwa konfigurasi Hotspot telah selesai.</li>
+                        <li>Klik "OK" untuk mengakhiri wizard.</li>
+                    </ul>
+                </li>
+
+            </ol>
+            
+            <div class="tech-alert">
+                <p>Hotspot MikroTik sebenarnya adalah kombinasi dari beberapa layanan RouterOS yang dikonfigurasi secara otomatis oleh wizard, termasuk DHCP Server, Firewall NAT, Firewall Filter, Proxy, dan lainnya. Hal ini memungkinkan administrator untuk menerapkan sistem autentikasi tanpa harus mengkonfigurasi setiap komponen secara manual.</p>
+            </div>
+            
+            <div class="conclusion-box">
+                Dari 2 pendapat tersebut dapat disimpulkan bahwa pembuatan Hotspot Server MikroTik dengan Winbox dilakukan melalui wizard Hotspot Setup yang menyediakan antarmuka grafis untuk mengkonfigurasi seluruh komponen sistem, meliputi pemilihan interface, pengaturan alamat jaringan, konfigurasi DHCP, DNS, dan pembuatan akun administrator untuk pengujian.
+            </div>
+        </div>
+
+        <!-- Section: Konfigurasi User Profile dan Bandwidth Limit -->
+        <div class="section fade-in">
+            <h2 class="section-title">4. Konfigurasi User Profile dan Bandwidth Limit</h2>
+            
+            <p>Dari sumber <strong>Blog Unnes</strong> (2017), manajemen bandwidth pada Hotspot MikroTik dapat dilakukan dengan dua metode utama: Built-in Limiter dan Custom Limitation. Built-in Limiter merupakan metode yang menggunakan parameter rate-limit pada server-profile untuk membatasi total traffic pada jaringan Hotspot, sedangkan untuk membatasi bandwidth per pengguna dapat menggunakan rate-limit pada user-profile.</p>
+            
+            <p>Dari sumber <strong>Dnet Provider</strong> (2018), limitasi bandwidth untuk pengguna Hotspot MikroTik dapat diatur secara berbeda untuk setiap golongan atau masing-masing pengguna melalui User Profile. Parameter yang dapat diatur meliputi limit-at dan max-limit, dimana rx mewakili download dan tx mewakili upload dari perspektif pengguna.</p>
+            
+            <h3 class="subsection-title">Pembuatan User Profile</h3>
+            <p>User Profile digunakan untuk mengelompokkan pengguna berdasarkan kebijakan yang sama, seperti limitasi bandwidth, waktu penggunaan, dan pembatasan lainnya.</p>
+            <ol>
+                <li><strong>Akses Menu User Profile:</strong>
+                    <ul>
+                        <li>Pada Winbox, klik "IP" &rarr; "Hotspot" &rarr; tab "User Profiles".</li>
+                        <li>Klik tombol "+" untuk menambahkan User Profile baru.</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>Konfigurasi User Profile Dasar:</strong>
+                    <ul>
+                        <li>Berikan nama profile yang deskriptif (misalnya: "Basic", "Premium", "Admin").</li>
+                        <li>Pada kolom "Shared Users", tentukan jumlah maksimal perangkat yang dapat terhubung menggunakan satu akun (default: 1).</li>
+                        <li>Tentukan "Address Pool" jika ingin menggunakan pool alamat IP tertentu untuk profile ini.</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>Konfigurasi Limitasi Bandwidth:</strong>
+                    <ul>
+                        <li>Pada kolom "Rate Limit", masukkan nilai limitasi bandwidth dalam format "rx/tx" (download/upload).</li>
+                        <li>Contoh format: "512k/256k" (512 Kbps download, 256 Kbps upload).</li>
+                        <li>Untuk format yang lebih kompleks, gunakan: "rx/tx burst-rx/burst-tx burst-threshold-rx/burst-threshold-tx burst-time-rx/burst-time-tx priority".</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>Konfigurasi Tambahan (Opsional):</strong>
+                    <ul>
+                        <li>"Session Timeout": Durasi maksimal sesi login (dalam format: 30m untuk 30 menit, 1h untuk 1 jam, dsb).</li>
+                        <li>"Idle Timeout": Waktu tidak aktif sebelum sesi terputus otomatis.</li>
+                        <li>"Keepalive Timeout": Interval waktu untuk menjaga koneksi tetap aktif.</li>
+                        <li>Nonaktifkan "Transparent Proxy" jika tidak diperlukan.</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>Simpan Konfigurasi:</strong>
+                    <ul>
+                        <li>Klik tombol "OK" untuk menyimpan konfigurasi User Profile.</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <h3 class="subsection-title">Contoh Konfigurasi Berbagai User Profile</h3>
+            <p>Berikut adalah beberapa contoh konfigurasi User Profile dengan limitasi bandwidth yang berbeda:</p>
+            <div class="code-terminal">
+                <div class="code-line"><span class="keyword"># Profile Basic (1 Mbps download, 512 Kbps upload)</span></div>
+                <div class="code-line">Name: Basic</div>
+                <div class="code-line">Rate Limit: <span class="string">1M/512k</span></div>
+                <div class="code-line">Shared Users: 1</div>
+                <div class="code-line">Session Timeout: 0 (tidak dibatasi)</div>
+                <div class="code-line comment"># Cocok untuk penggunaan browsing dasar dan media sosial</div>
+                <div class="code-line"></div>
+                <div class="code-line"><span class="keyword"># Profile Premium (2 Mbps download, 1 Mbps upload)</span></div>
+                <div class="code-line">Name: Premium</div>
+                <div class="code-line">Rate Limit: <span class="string">2M/1M</span></div>
+                <div class="code-line">Shared Users: 2</div>
+                <div class="code-line">Session Timeout: 0 (tidak dibatasi)</div>
+                <div class="code-line comment"># Cocok untuk streaming video kualitas medium dan gaming ringan</div>
+                <div class="code-line"></div>
+                <div class="code-line"><span class="keyword"># Profile Admin (Unlimited bandwidth)</span></div>
+                <div class="code-line">Name: Admin</div>
+                <div class="code-line">Rate Limit: <span class="string"></span> (kosong untuk unlimited)</div>
+                <div class="code-line">Shared Users: 3</div>
+                <div class="code-line">Session Timeout: 0 (tidak dibatasi)</div>
+                <div class="code-line comment"># Untuk administrator jaringan, tanpa batasan bandwidth</div>
+            </div>
+            
+            <h3 class="subsection-title">Pengaturan Bandwidth Advanced dengan Burst</h3>
+            <p>Fitur "Burst" memungkinkan pengguna untuk mendapatkan bandwidth yang lebih tinggi selama periode waktu tertentu, berguna untuk mempercepat loading awal halaman web atau download file kecil.</p>
+            <div class="code-terminal">
+                <div class="code-line"><span class="keyword"># Contoh Rate Limit dengan Burst</span></div>
+                <div class="code-line comment"># Format: rx/tx burst-rx/burst-tx burst-threshold-rx/burst-threshold-tx burst-time-rx/burst-time-tx priority</div>
+                <div class="code-line">Rate Limit: <span class="string">1M/512k 2M/1M 1500k/750k 10/10 8</span></div>
+                <div class="code-line comment"># Arti: 1 Mbps download / 512 Kbps upload normal</div>
+                <div class="code-line comment"># Burst: 2 Mbps download / 1 Mbps upload maksimal</div>
+                <div class="code-line comment"># Burst threshold: 1.5 Mbps download / 750 Kbps upload</div>
+                <div class="code-line comment"># Burst time: 10 detik untuk download dan upload</div>
+                <div class="code-line comment"># Priority: 8 (prioritas 1 paling tinggi, 8 paling rendah)</div>
+            </div>
+            
+            <div class="security-alert">
+                <p>Pastikan untuk tidak memberikan terlalu banyak bandwidth pada User Profile jika kapasitas koneksi internet Anda terbatas. Jika total bandwidth yang dialokasikan melebihi kapasitas internet yang tersedia, akan terjadi congestion dan semua pengguna akan mengalami penurunan kinerja.</p>
+            </div>
+            
+            <div class="conclusion-box">
+                Dari 2 pendapat tersebut dapat disimpulkan bahwa konfigurasi User Profile dan limitasi bandwidth pada Hotspot MikroTik dilakukan melalui pengaturan parameter Rate Limit dalam format rx/tx (download/upload), yang dapat disesuaikan untuk setiap golongan pengguna dengan kebutuhan berbeda, dan dapat mencakup fitur advanced seperti burst untuk pengalaman pengguna yang lebih baik.
+            </div>
+        </div>
+
+        <!-- Section: Pembuatan User dan Manajemen User Hotspot -->
+        <div class="section fade-in">
+            <h2 class="section-title">5. Pembuatan User dan Manajemen User Hotspot</h2>
+            
+            <p>Dari sumber <strong>MikroTik Community Forum</strong> (2017), Hotspot MikroTik memungkinkan administrator untuk membuat user dengan berbagai batasan, termasuk limitasi bandwidth per device atau per user. Pengelolaan user yang tepat memungkinkan kontrol yang lebih baik atas penggunaan jaringan dan pengalaman pengguna.</p>
+            
+            <p>Dari sumber <strong>System Zone</strong> (2021), manajemen user Hotspot MikroTik dapat dilakukan baik secara manual langsung di router maupun menggunakan sistem RADIUS Server seperti User Manager yang menawarkan kemampuan untuk membuat paket bandwidth dengan berbagai limitasi, seperti paket 512kbps, 1Mbps, atau 2Mbps.</p>
+            
+            <h3 class="subsection-title">Pembuatan User Hotspot Manual</h3>
+            <p>Berikut langkah-langkah pembuatan user Hotspot secara manual melalui Winbox:</p>
+            <ol>
+                <li><strong>Akses Menu User Hotspot:</strong>
+                    <ul>
+                        <li>Pada Winbox, klik "IP" &rarr; "Hotspot" &rarr; tab "Users".</li>
+                        <li>Klik tombol "+" untuk menambahkan user baru.</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>Konfigurasi User Dasar:</strong>
+                    <ul>
+                        <li>Masukkan "Name" (username) dan "Password" untuk user.</li>
+                        <li>Pilih "Profile" yang sesuai dari daftar User Profile yang telah dibuat sebelumnya.</li>
+                        <li>Opsional: Tentukan "Server" jika memiliki beberapa Hotspot Server.</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>Konfigurasi Tambahan (Opsional):</strong>
+                    <ul>
+                        <li>"Limit Uptime": Batasan total waktu penggunaan (misalnya: 5h untuk 5 jam).</li>
+                        <li>"Limit Bytes In/Out": Batasan total data download/upload.</li>
+                        <li>"MAC Address": Mengikat user ke alamat MAC tertentu.</li>
+                        <li>"IP Address": Mengikat user ke alamat IP tertentu.</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>Simpan Konfigurasi:</strong>
+                    <ul>
+                        <li>Klik tombol "OK" untuk menyimpan konfigurasi user baru.</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <h3 class="subsection-title">Pembuatan Banyak User Sekaligus</h3>
+            <p>Untuk membuat banyak user sekaligus, Anda dapat menggunakan fitur User Generator:</p>
+            <ol>
+                <li>Pada menu "IP" &rarr; "Hotspot" &rarr; "Users", klik tombol "Generate".</li>
+                <li>Masukkan pengaturan berikut:
+                    <ul>
+                        <li>"Quantity": Jumlah user yang akan dibuat.</li>
+                        <li>"Prefix": Awalan untuk username (misalnya: "user").</li>
+                        <li>"Length": Panjang karakter untuk bagian acak username.</li>
+                        <li>"Password Length": Panjang karakter untuk password.</li>
+                        <li>"Profile": User Profile yang akan diterapkan.</li>
+                    </ul>
+                </li>
+                <li>Klik "OK" untuk membuat user sesuai konfigurasi.</li>
+            </ol>
+
+            
+            <h3 class="subsection-title">Monitoring dan Manajemen User</h3>
+            <p>MikroTik menyediakan beberapa fitur untuk memantau dan mengelola user Hotspot yang aktif:</p>
+            <ol>
+                <li><strong>Active Users:</strong>
+                    <ul>
+                        <li>Pada menu "IP" &rarr; "Hotspot" &rarr; tab "Active", Anda dapat melihat daftar user yang sedang terhubung.</li>
+                        <li>Informasi meliputi username, alamat IP, uptime, bytes in/out, dan status.</li>
+                        <li>Anda dapat memutuskan koneksi user dengan memilih user dan klik tombol "Remove".</li>
+                    </ul>
+                </li>
+
+                <li><strong>Hosts:</strong>
+                    <ul>
+                        <li>Pada tab "Hosts", Anda dapat melihat semua perangkat yang terhubung ke Hotspot, baik yang sudah login maupun belum.</li>
+                        <li>Anda dapat membatasi atau memperbolehkan akses berdasarkan alamat MAC dengan fitur Binding.</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>IP Bindings:</strong>
+                    <ul>
+                        <li>Pada tab "IP Bindings", Anda dapat mengatur bypass Hotspot untuk alamat IP atau MAC tertentu.</li>
+                        <li>Ini berguna untuk perangkat yang tidak perlu melakukan login (seperti printer jaringan).</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>User Manager (Opsional):</strong>
+                    <ul>
+                        <li>Untuk manajemen user yang lebih canggih, Anda dapat menggunakan User Manager MikroTik.</li>
+                        <li>User Manager menawarkan fitur tambahan seperti kuota, billing, dan integrasi RADIUS.</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <div class="tech-alert">
+                <p>Untuk kemudahan pengelolaan user dalam jumlah besar, pertimbangkan untuk menggunakan MikroTik User Manager atau solusi pihak ketiga seperti MIKHMON (MikroTik Hotspot Monitor) yang menyediakan antarmuka web untuk manajemen user dan pembuatan voucher Hotspot.</p>
+            </div>
+            
+            <div class="conclusion-box">
+                Dari 2 pendapat tersebut dapat disimpulkan bahwa pembuatan dan manajemen user Hotspot MikroTik dapat dilakukan secara manual melalui Winbox dengan mengonfigurasi parameter seperti username, password, profile, dan batasan tambahan, serta tersedia fitur untuk membuat banyak user sekaligus dan memantau aktivitas user yang sedang terhubung ke jaringan.
+            </div>
+        </div>
+
+        <!-- Section: Kustomisasi Halaman Login Hotspot -->
+        <div class="section fade-in">
+            <h2 class="section-title">6. Kustomisasi Halaman Login Hotspot</h2>
+            
+            <p>Dari sumber <strong>Instalasi MikroTik</strong> (2023), halaman login Hotspot MikroTik dapat dikustomisasi untuk menyesuaikan dengan kebutuhan atau identitas organisasi. MikroTik menyediakan berbagai pengaturan seperti nama hotspot, URL halaman login, dan elemen visual lainnya yang dapat diakses melalui tab "Server Profiles".</p>
+            
+            <p>Dari sumber <strong>Nuslab</strong> (2020), konfigurasi DNS name pada setup Hotspot memungkinkan administrator untuk menentukan nama domain yang akan digunakan sebagai halaman login hotspot, yang secara default akan menampilkan halaman login bawaan MikroTik jika tidak dikustomisasi lebih lanjut.</p>
+            
+            <h3 class="subsection-title">Akses File Halaman Login Default</h3>
+            <p>Sebelum melakukan kustomisasi, penting untuk memahami struktur file halaman login default MikroTik:</p>
+            <ol>
+                <li>Pada Winbox, klik "Files" untuk mengakses sistem file MikroTik.</li>
+                <li>Navigasi ke folder "hotspot" yang berisi semua file terkait halaman Hotspot.</li>
+                <li>File utama yang perlu dimodifikasi antara lain:
+                    <ul>
+                        <li><strong>login.html</strong>: Halaman login utama.</li>
+                        <li><strong>status.html</strong>: Halaman status setelah login berhasil.</li>
+                        <li><strong>alogin.html</strong>: Halaman login otomatis (jika menggunakan MAC cookie).</li>
+                        <li><strong>redirect.html</strong>: Halaman pengalihan setelah login.</li>
+                        <li><strong>rlogin.html</strong>: Halaman login ulang jika terjadi kesalahan.</li>
+                        <li><strong>css/style.css</strong>: File CSS untuk styling halaman.</li>
+                        <li><strong>img/</strong>: Folder berisi gambar dan logo.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            
+            <h3 class="subsection-title">Metode Kustomisasi Halaman Login</h3>
+            <p>Ada beberapa metode untuk mengkustomisasi halaman login Hotspot MikroTik:</p>
+            <ol>
+                <li><strong>Metode 1: Edit Langsung di MikroTik</strong>
+                    <ul>
+                        <li>Buka file yang ingin diedit (misalnya login.html) dengan mengklik dua kali pada file tersebut.</li>
+                        <li>Modifikasi kode HTML sesuai kebutuhan.</li>
+                        <li>Klik "Save" untuk menyimpan perubahan.</li>
+                    </ul>
+                </li>
+                <li><strong>Metode 2: Upload Template Kustom</strong>
+                    <ul>
+                        <li>Unduh terlebih dahulu file halaman default sebagai referensi.</li>
+                        <li>Buat template kustom pada komputer lokal menggunakan editor HTML.</li>
+                        <li>Upload template tersebut ke folder hotspot menggunakan fitur "Upload" di menu Files.</li>
+                        <li>Pastikan untuk mengganti semua file terkait (HTML, CSS, gambar) untuk tampilan yang konsisten.</li>
+                    </ul>
+                </li>
+
+                
+                <li><strong>Metode 3: Menggunakan Template Generator Online</strong>
+                    <ul>
+                        <li>Ada beberapa layanan online yang menyediakan template Hotspot MikroTik siap pakai.</li>
+                        <li>Unduh template yang diinginkan.</li>
+                        <li>Upload template tersebut ke folder hotspot MikroTik.</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <h3 class="subsection-title">Elemen yang Dapat Dikustomisasi</h3>
+            <p>Berikut adalah beberapa elemen yang umum dikustomisasi pada halaman login Hotspot:</p>
+            <ul>
+                <li><strong>Logo dan Branding</strong>: Ganti logo default dengan logo organisasi Anda.</li>
+                <li><strong>Warna dan Tema</strong>: Sesuaikan skema warna dengan identitas visual organisasi.</li>
+                <li><strong>Pesan Selamat Datang</strong>: Tambahkan pesan khusus pada halaman login.</li>
+                <li><strong>Syarat dan Ketentuan</strong>: Tambahkan informasi penggunaan layanan atau disclaimer.</li>
+                <li><strong>Informasi Kontak</strong>: Tampilkan informasi kontak administrator jaringan.</li>
+                <li><strong>Iklan atau Promosi</strong>: Tambahkan banner promosi jika Hotspot digunakan untuk bisnis.</li>
+            </ul>
+
+            <h3 class="subsection-title">Contoh Kode untuk Kustomisasi</h3>
+            <p>Berikut adalah contoh kode sederhana untuk memodifikasi halaman login:</p>
+            <div class="code-terminal">
+                <div class="code-line"><span class="keyword"># Mengganti judul dan logo pada halaman login</span></div>
+                <div class="code-line">&lt;title&gt;Selamat Datang di Hotspot Kami&lt;/title&gt;</div>
+                <div class="code-line">&lt;div class="logo"&gt;&lt;img src="img/logo.png" alt="Logo Organisasi"&gt;&lt;/div&gt;</div>
+                <div class="code-line"></div>
+                <div class="code-line"><span class="keyword"># Menambahkan pesan selamat datang</span></div>
+                <div class="code-line">&lt;div class="welcome"&gt;</div>
+                <div class="code-line">  &lt;h1&gt;Selamat Datang&lt;/h1&gt;</div>
+                <div class="code-line">  &lt;p&gt;Silakan login untuk mengakses layanan internet kami.&lt;/p&gt;</div>
+                <div class="code-line">&lt;/div&gt;</div>
+                <div class="code-line"></div>
+                <div class="code-line"><span class="keyword"># Menambahkan informasi paket dan layanan</span></div>
+                <div class="code-line">&lt;div class="packages"&gt;</div>
+                <div class="code-line">  &lt;h3&gt;Informasi Paket&lt;/h3&gt;</div>
+                <div class="code-line">  &lt;ul&gt;</div>
+                <div class="code-line">    &lt;li&gt;Paket Basic: 1 Mbps - Rp 10.000/hari&lt;/li&gt;</div>
+                <div class="code-line">    &lt;li&gt;Paket Premium: 2 Mbps - Rp 20.000/hari&lt;/li&gt;</div>
+                <div class="code-line">  &lt;/ul&gt;</div>
+                <div class="code-line">&lt;/div&gt;</div>
+            </div>
+            
+            <div class="security-alert">
+                <p>Saat mengkustomisasi halaman login Hotspot, pastikan untuk tidak menghapus elemen penting seperti form login, parameter $(username), $(password), $(link-login), dan lainnya yang diperlukan untuk fungsi autentikasi. Modifikasi yang tidak tepat dapat menyebabkan halaman login tidak berfungsi dengan benar.</p>
+            </div>
+            
+            <div class="conclusion-box">
+                Dari 2 pendapat tersebut dapat disimpulkan bahwa kustomisasi halaman login Hotspot MikroTik dapat dilakukan dengan mengedit file HTML, CSS, dan gambar pada folder hotspot, baik secara langsung di MikroTik atau dengan mengupload template kustom, untuk menyesuaikan tampilan dengan identitas organisasi sambil tetap mempertahankan fungsi autentikasi yang diperlukan.
+            </div>
+        </div>
+
+        <!-- Section: Troubleshooting dan Tips Keamanan -->
+        <div class="section fade-in">
+            <h2 class="section-title">7. Troubleshooting dan Tips Keamanan</h2>
+            
+            <p>Dari sumber <strong>MikroTik Community Forum</strong> (2006), masalah umum pada konfigurasi Hotspot MikroTik seringkali berkaitan dengan limitasi bandwidth, konektivitas user, dan pengaturan rate limit. Pendekatan sistematis dalam troubleshooting sangat penting untuk mengidentifikasi dan menyelesaikan masalah dengan tepat.</p>
+            
+            <p>Dari sumber <strong>Technology Software Center</strong> (2023), keamanan Hotspot MikroTik perlu diperhatikan, terutama terkait metode autentikasi dan implementasi firewall yang tepat. Pemilihan metode limitasi bandwidth yang sesuai juga penting untuk memastikan kinerja jaringan yang optimal.</p>
+            
+            <h3 class="subsection-title">Troubleshooting Masalah Umum</h3>
+            <ol>
+                <li><strong>Klien Tidak Dapat Terhubung ke Jaringan Hotspot:</strong>
+                    <ul>
+                        <li>Periksa apakah interface Hotspot dalam keadaan aktif (running).</li>
+                        <li>Pastikan DHCP Server berjalan dengan benar (IP &rarr; DHCP Server).</li>
+                        <li>Periksa apakah ada konflik alamat IP dalam jaringan.</li>
+                        <li>Verifikasi pengaturan wireless jika menggunakan koneksi Wi-Fi (Wireless &rarr; Interfaces).</li>
+                    </ul>
+                </li>
+                
+                <li><strong>Halaman Login Tidak Muncul:</strong>
+                    <ul>
+                        <li>Pastikan Hotspot Server aktif (IP &rarr; Hotspot &rarr; Servers).</li>
+                        <li>Periksa apakah DNS Server dikonfigurasi dengan benar (IP &rarr; DNS).</li>
+                        <li>Coba akses halaman login menggunakan alamat IP interface Hotspot secara langsung.</li>
+                        <li>Periksa firewall rules yang mungkin memblokir traffic Hotspot.</li>
+                    </ul>
+                </li>
+                
+                <li><strong>Autentikasi Gagal:</strong>
+                    <ul>
+                        <li>Verifikasi username dan password yang digunakan sudah benar.</li>
+                        <li>Periksa apakah user memiliki limitasi seperti uptime atau quota yang sudah habis.</li>
+                        <li>Periksa metode autentikasi yang digunakan di Server Profiles.</li>
+                        <li>Jika menggunakan RADIUS, pastikan komunikasi dengan server RADIUS berfungsi dengan baik.</li>
+                    </ul>
+                </li>
+                
+                <li><strong>Masalah Bandwidth dan Kecepatan:</strong>
+                    <ul>
+                        <li>Verifikasi konfigurasi Rate Limit pada User Profile.</li>
+                        <li>Periksa apakah ada Queue yang mungkin konflik dengan limitasi Hotspot.</li>
+                        <li>Pantau penggunaan bandwidth real-time melalui Torch (Tools &rarr; Torch).</li>
+                        <li>Pastikan total bandwidth yang dialokasikan tidak melebihi kapasitas koneksi internet.</li>
+                    </ul>
+                </li>
+                
+                <li><strong>Masalah Koneksi Setelah Login:</strong>
+                    <ul>
+                        <li>Periksa konfigurasi NAT (IP &rarr; Firewall &rarr; NAT).</li>
+                        <li>Pastikan routing ke internet berfungsi dengan benar.</li>
+                        <li>Verifikasi apakah firewall memblokir traffic tertentu setelah login.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            
+            <h3 class="subsection-title">Tips Meningkatkan Keamanan Hotspot</h3>
+            <ol>
+                <li><strong>Gunakan HTTPS untuk Halaman Login:</strong>
+                    <ul>
+                        <li>Buat sertifikat SSL (System &rarr; Certificates).</li>
+                        <li>Terapkan sertifikat pada Server Profile Hotspot.</li>
+                        <li>Aktifkan HTTPS pada metode autentikasi.</li>
+                    </ul>
+                </li>
+                
+                <li><strong>Implementasi Firewall yang Tepat:</strong>
+                    <ul>
+                        <li>Blokir akses ke port manajemen MikroTik (8291, 80, 443) dari jaringan Hotspot.</li>
+                        <li>Batasi akses ke jaringan lokal lain yang mungkin terhubung ke router.</li>
+                        <li>Filter traffic berbahaya dan serangan umum menggunakan firewall rules.</li>
+                    </ul>
+                </li>
+                <div class="code-terminal">
+                    <div class="code-line"><span class="keyword"># Contoh rule firewall untuk mengamankan Hotspot</span></div>
+                    <div class="code-line">/ip firewall filter add chain=forward action=drop src-address=192.168.88.0/24 dst-address=192.168.1.0/24 comment="Block Hotspot access to Management LAN"</div>
+                    <div class="code-line"></div>
+                    <div class="code-line">/ip firewall filter add chain=input action=drop src-address=192.168.88.0/24 protocol=tcp dst-port=8291 comment="Block Winbox from Hotspot"</div>
+                </div>
+                
+                <li><strong>Pengaturan Walled Garden:</strong>
+                    <ul>
+                        <li>Gunakan Walled Garden untuk mengizinkan akses ke situs tertentu tanpa login.</li>
+                        <li>Ini berguna untuk akses ke halaman syarat & ketentuan atau situs resmi organisasi.</li>
+                    </ul>
+                </li>
+                <div class="code-terminal">
+                    <div class="code-line"><span class="keyword"># Contoh konfigurasi Walled Garden</span></div>
+                    <div class="code-line">/ip hotspot walled-garden add dst-host=*.google.com action=allow comment="Allow access to Google"</div>
+                    <div class="code-line">/ip hotspot walled-garden add dst-host=*.organisasi-anda.com action=allow comment="Allow access to organization website"</div>
+                </div>
+                
+                <li><strong>Batasan Login per User:</strong>
+                    <ul>
+                        <li>Atur "Shared Users" pada User Profile untuk membatasi jumlah perangkat yang dapat login dengan satu akun.</li>
+                        <li>Gunakan MAC Cookie Timeout yang lebih pendek untuk memaksa autentikasi ulang secara berkala.</li>
+                    </ul>
+                </li>
+                
+                <li><strong>Monitoring dan Logging:</strong>
+                    <ul>
+                        <li>Aktifkan logging untuk aktivitas Hotspot (System &rarr; Logging).</li>
+                        <li>Pantau Active Users secara teratur untuk mendeteksi aktivitas mencurigakan.</li>
+                        <li>Pertimbangkan untuk menggunakan Remote Logging ke server terpisah untuk analisis keamanan.</li>
+                    </ul>
+                </li>
+            </ol>
+            
+            <div class="tech-alert">
+                <p>MikroTik RouterOS menyediakan utilitas Torch yang sangat berguna untuk troubleshooting masalah bandwidth. Dengan Torch, administrator dapat memantau traffic secara real-time pada interface tertentu, memfilter berdasarkan protocol, port, atau alamat IP, membantu mengidentifikasi penggunaan bandwidth berlebihan atau aktivitas jaringan yang tidak normal.</p>
+            </div>
+            
+            <div class="security-alert">
+                <p>Segmen jaringan Hotspot sebaiknya dipisahkan dari jaringan internal organisasi. Terapkan firewall rules yang ketat untuk mencegah pengguna Hotspot mengakses server atau perangkat internal yang sensitif. Selalu perbarui RouterOS ke versi terbaru untuk mendapatkan perbaikan keamanan terkini.</p>
+            </div>
+            
+            <div class="conclusion-box">
+                Dari 2 pendapat tersebut dapat disimpulkan bahwa troubleshooting Hotspot MikroTik memerlukan pendekatan sistematis untuk mengatasi masalah konektivitas, autentikasi, dan bandwidth, sementara keamanan dapat ditingkatkan melalui implementasi HTTPS, firewall yang tepat, pengaturan Walled Garden, batasan login, dan monitoring aktif terhadap aktivitas pengguna.
+            </div>
+        </div>
+
+        <!-- Bibliography -->
+        <div class="bibliography">
+            <h3>DAFTAR PUSTAKA</h3>
+            <ul>
+                <li><strong>MikroTik Wiki.</strong> 2024. <em>Manual:Hotspot</em>. <a href="https://wiki.mikrotik.com/wiki/Manual:Hotspot" target="_blank">https://wiki.mikrotik.com/wiki/Manual:Hotspot</a>. Diakses pada 29 Oktober 2025, pukul 08:15 WIB.</li>
+                
+                <li><strong>ID-Networkers (IDN.ID).</strong> 2023. <em>Cara Membuat Hotspot di MikroTik</em>. <a href="https://www.idn.id/cara-membuat-hostpot-di-mikrotik/" target="_blank">https://www.idn.id/cara-membuat-hostpot-di-mikrotik/</a>. Diakses pada 29 Oktober 2025, pukul 08:45 WIB.</li>
+                
+                <li><strong>NetMe.id.</strong> 2019. <em>Cara Setting Hotspot MikroTik Dengan Winbox</em>. <a href="https://www.netme.id/setting-hotspot-mikrotik/" target="_blank">https://www.netme.id/setting-hotspot-mikrotik/</a>. Diakses pada 29 Oktober 2025, pukul 09:20 WIB.</li>
+                
+                <li><strong>SMK TI ANNISA 2.</strong> 2023. <em>Setting Dasar Hotspot MikroTik</em>. <a href="https://smktiannisa.sch.id/setting-dasar-hotspot-mikrotik/" target="_blank">https://smktiannisa.sch.id/setting-dasar-hotspot-mikrotik/</a>. Diakses pada 29 Oktober 2025, pukul 09:55 WIB.</li>
+
+                <li><strong>Vasiota.com.</strong> 2024. <em>Cara Membuat Hotspot di MikroTik: Konfigurasi Dasar</em>. <a href="https://vasiota.com/mikrotik/cara-membuat-hotspot-di-mikrotik-konfigurasi-dasar/" target="_blank">https://vasiota.com/mikrotik/cara-membuat-hotspot-di-mikrotik-konfigurasi-dasar/</a>. Diakses pada 29 Oktober 2025, pukul 10:30 WIB.</li>
+
+                <li><strong>Network Data Sistem (NDS).</strong> 2020. <em>Interesting Features Mikrotik Hotspot Settings</em>. <a href="https://nds.id/en/interesting-features-and-mikrotik-hotspot-settings/" target="_blank">https://nds.id/en/interesting-features-and-mikrotik-hotspot-settings/</a>. Diakses pada 29 Oktober 2025, pukul 11:05 WIB.</li>
+
+                <li><strong>Citraweb.com.</strong> 2024. <em>Setting Dasar Hotspot Mikrotik</em>. <a href="https://citraweb.com/artikel_lihat.php?id=125" target="_blank">https://citraweb.com/artikel_lihat.php?id=125</a>. Diakses pada 29 Oktober 2025, pukul 11:40 WIB.</li>
+
+                <li><strong>OnnoWiki.</strong> 2023. <em>Mikrotik: Setup Konfigurasi HotSpot</em>. <a href="https://onnocenter.or.id/wiki/index.php/Mikrotik:_Setup_Konfigurasi_HotSpot" target="_blank">https://onnocenter.or.id/wiki/index.php/Mikrotik:_Setup_Konfigurasi_HotSpot</a>. Diakses pada 29 Oktober 2025, pukul 12:15 WIB.</li>
+
+                <li><strong>Blog Unnes.</strong> 2017. <em>Cara Membatasi/Limit Bandwidth User Hotspot Mikrotik</em>. <a href="https://blog.unnes.ac.id/mira/2017/02/10/cara-membatasilimit-bandwidth-user-hotspot-mikrotik/" target="_blank">https://blog.unnes.ac.id/mira/2017/02/10/cara-membatasilimit-bandwidth-user-hotspot-mikrotik/</a>. Diakses pada 29 Oktober 2025, pukul 12:50 WIB.</li>
+
+                <li><strong>Dnet Provider.</strong> 2018. <em>Tutorial Konfigurasi Manajemen User Hotspot</em>. <a href="https://blog.dnetprovider.id/2018/10/04/tutorial-konfigurasi-manajemen-user-hotspot/" target="_blank">https://blog.dnetprovider.id/2018/10/04/tutorial-konfigurasi-manajemen-user-hotspot/</a>. Diakses pada 29 Oktober 2025, pukul 13:25 WIB.</li>
+
+                <li><strong>MikroTik Community Forum.</strong> 2006. <em>Limit Bandwidth Hotspot per User</em>. <a href="https://forum.mikrotik.com/viewtopic.php?t=9816" target="_blank">https://forum.mikrotik.com/viewtopic.php?t=9816</a>. Diakses pada 29 Oktober 2025, pukul 14:00 WIB.</li>
+
+                <li><strong>MikroTik Community Forum.</strong> 2017. <em>Possible to Limit Bandwidth per User not per Device in Hotspot?</em>. <a href="https://forum.mikrotik.com/viewtopic.php?t=123561" target="_blank">https://forum.mikrotik.com/viewtopic.php?t=123561</a>. Diakses pada 29 Oktober 2025, pukul 14:35 WIB.</li>
+
+                <li><strong>Technology Software Center.</strong> 2023. <em>How to Restrict / MikroTik Hotspot User Bandwidth Limit</em>. <a href="https://techsoftcenter.com/how-to-restrict-mikrotik-hotspot-user-bandwidth-limit/" target="_blank">https://techsoftcenter.com/how-to-restrict-mikrotik-hotspot-user-bandwidth-limit/</a>. Diakses pada 29 Oktober 2025, pukul 15:10 WIB.</li>
+
+                <li><strong>System Zone.</strong> 2021. <em>MikroTik Hotspot with Bandwidth Limitation and Prepaid Billing System</em>. <a href="https://systemzone.net/mikrotik-hotspot-with-bandwidth-limitation-and-prepaid-billing-system/" target="_blank">https://systemzone.net/mikrotik-hotspot-with-bandwidth-limitation-and-prepaid-billing-system/</a>. Diakses pada 29 Oktober 2025, pukul 15:45 WIB.</li>
+
+                <li><strong>Instalasi MikroTik.</strong> 2023. <em>Konfigurasi Hotspot di MikroTik: Panduan Lengkap</em>. <a href="https://instalasimikrotik.com/konfigurasi-hotspot-di-mikrotik-panduan-lengkap/" target="_blank">https://instalasimikrotik.com/konfigurasi-hotspot-di-mikrotik-panduan-lengkap/</a>. Diakses pada 29 Oktober 2025, pukul 16:20 WIB.</li>
+
+                <li><strong>Nuslab.</strong> 2020. <em>Setup dan Konfigurasi MikroTik sebagai Hotspot</em>. <a href="https://www.nuslab.com/2020/01/konfigurasi-mikrotik-sebagai-hotspot.html" target="_blank">https://www.nuslab.com/2020/01/konfigurasi-mikrotik-sebagai-hotspot.html</a>. Diakses pada 29 Oktober 2025, pukul 16:55 WIB.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Tech particles animation
+        function createTechParticles() {
+            const particlesContainer = document.getElementById('techParticles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Scroll progress
+        function updateScrollProgress() {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            document.getElementById('scrollProgress').style.width = scrollPercent + '%';
+        }
+
+        // Typing effect for code lines
+        function typeText(element, text, speed = 30) {
+            return new Promise(resolve => {
+                element.classList.add('typing');
+                let i = 0;
+                
+                function type() {
+                    if (i < text.length) {
+                        element.textContent = text.slice(0, i + 1);
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        element.classList.remove('typing');
+                        element.classList.add('typed');
+                        resolve();
+                    }
+                }
+                type();
+            });
+        }
+        
+        async function animateCodeBlock(terminal) {
+            const codeLines = terminal.querySelectorAll('.code-line:not(.typed)');
+            for (const line of codeLines) {
+                const originalHTML = line.innerHTML;
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = originalHTML;
+                const textContent = tempDiv.textContent || tempDiv.innerText || '';
+                
+                // Clear the line content, but keep child spans for styling
+                const children = Array.from(line.childNodes).map(child => child.cloneNode(true));
+                line.innerHTML = '';
+                
+                await typeText(line, textContent, 20);
+                
+                // Restore original HTML with spans
+                line.innerHTML = originalHTML;
+                line.classList.add('typed');
+            }
+        }
+
+        // Animate code blocks with typing effect
+        function setupCodeBlockObserver() {
+            const codeTerminals = document.querySelectorAll('.code-terminal');
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const terminal = entry.target;
+                        // For already typed lines, just show them
+                        terminal.querySelectorAll('.code-line.typed').forEach(line => line.style.opacity = '1');
+                        
+                        animateCodeBlock(terminal);
+                        obs.unobserve(terminal); // Animate only once
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            codeTerminals.forEach(terminal => {
+                observer.observe(terminal);
+            });
+        }
+
+        // Fade in animation on scroll
+        function animateOnScroll() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        // Section hover effects
+        function addSectionEffects() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.addEventListener('mouseenter', () => {
+                    section.style.transform = 'translateY(-8px)';
+                });
+                section.addEventListener('mouseleave', () => {
+                    section.style.transform = 'translateY(0)';
+                });
+            });
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            createTechParticles();
+            animateOnScroll();
+            setupCodeBlockObserver();
+            addSectionEffects();
+            
+            // Scroll events
+            window.addEventListener('scroll', updateScrollProgress);
+            
+            // Smooth scrolling for better UX
+            document.documentElement.style.scrollBehavior = 'smooth';
+        });
+
+        // Add responsive particle count
+        function adjustParticleCount() {
+            const width = window.innerWidth;
+            const particlesContainer = document.getElementById('techParticles');
+            const currentParticles = particlesContainer.children.length;
+            const targetParticles = width < 768 ? 20 : width < 1200 ? 35 : 50;
+            
+            if (currentParticles !== targetParticles) {
+                particlesContainer.innerHTML = '';
+                for (let i = 0; i < targetParticles; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + 'vw';
+                    particle.style.animationDelay = Math.random() * 20 + 's';
+                    particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            }
+        }
+
+        window.addEventListener('resize', adjustParticleCount);
+
+        // Anti-Copy JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mencegah seleksi teks
+            document.addEventListener('selectstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+
+            // Mencegah penyalinan teks (Ctrl+C)
+            document.addEventListener('copy', function(e) {
+                e.preventDefault();
+                // Opsional: Tampilkan pesan
+                alert('Maaf, penyalinan konten pada halaman ini tidak diizinkan!');
+                return false;
+            });
+
+            // Mencegah pemotongan teks (Ctrl+X)
+            document.addEventListener('cut', function(e) {
+                e.preventDefault();
+                return false;
+            });
+
+            // Mencegah penempelan teks (Ctrl+V)
+            document.addEventListener('paste', function(e) {
+                e.preventDefault();
+                return false;
+            });
+
+            // Mencegah klik kanan
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+
+            // Mencegah drag & drop
+            document.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+        });
+    </script>
+
+</body>
+</html>
